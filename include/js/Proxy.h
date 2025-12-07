@@ -407,7 +407,7 @@ struct ProxyReservedSlots {
   static inline int offsetOfPrivateSlot();
 
   static inline int offsetOfSlot(size_t slot) {
-    return offsetof(ProxyReservedSlots, slots[0]) + slot * sizeof(JS::Value);
+    return static_cast<int>(offsetof(ProxyReservedSlots, slots[0]) + slot * sizeof(JS::Value));
   }
 
   void init(size_t nreserved) {

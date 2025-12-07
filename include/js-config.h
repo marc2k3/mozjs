@@ -16,7 +16,7 @@
 /* #undef JS_DEBUG */
 
 /* Define to 1 if SpiderMonkey is in 64-bit mode. */
-/* #undef JS_64BIT */
+#define JS_64BIT 1
 
 /*
  * NB: We have a special case for rust-bindgen, which wants to be able to
@@ -56,10 +56,10 @@
 /* #undef JS_CRASH_DIAGNOSTICS */
 
 /* Define to 1 if SpiderMonkey is in NUNBOX32 mode. */
-#define JS_NUNBOX32 1
+/* #undef JS_NUNBOX32 */
 
 /* Define to 1 if SpiderMonkey is in PUNBOX64 mode. */
-/* #undef JS_PUNBOX64 */
+#define JS_PUNBOX64 1
 
 /* Define to 1 if SpiderMonkey should support SmooshMonkey parser. */
 /* #undef JS_ENABLE_SMOOSH */
