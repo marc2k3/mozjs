@@ -23,23 +23,19 @@ namespace js {
 namespace gc {
 JS_PUBLIC_API void TraceRealm(JSTracer* trc, JS::Realm* realm,
                               const char* name);
-JS_PUBLIC_API bool RealmNeedsSweep(JS::Realm* realm);
 }  // namespace gc
 }  // namespace js
 
 namespace JS {
 class JS_PUBLIC_API AutoRequireNoGC;
 
-// Each Realm holds a strong reference to its GlobalObject, and vice versa.
+// Each Realm holds a weak reference to its GlobalObject.
 template <>
 struct GCPolicy<Realm*> : public NonGCPointerPolicy<Realm*> {
   static void trace(JSTracer* trc, Realm** vp, const char* name) {
     if (*vp) {
       ::js::gc::TraceRealm(trc, *vp, name);
     }
-  }
-  static bool needsSweep(Realm** vp) {
-    return *vp && ::js::gc::RealmNeedsSweep(*vp);
   }
 };
 
@@ -65,7 +61,7 @@ extern JS_PUBLIC_API void* GetRealmPrivate(Realm* realm);
 // Set the "private data" internal field of the given Realm.
 extern JS_PUBLIC_API void SetRealmPrivate(Realm* realm, void* data);
 
-typedef void (*DestroyRealmCallback)(JSFreeOp* fop, Realm* realm);
+typedef void (*DestroyRealmCallback)(JS::GCContext* gcx, Realm* realm);
 
 // Set the callback SpiderMonkey calls just before garbage-collecting a realm.
 // Embeddings can use this callback to free private data associated with the
@@ -93,6 +89,12 @@ extern JS_PUBLIC_API JSObject* GetRealmGlobalOrNull(Realm* realm);
 // functions and constants associated with the standard classes (e.g. isNaN
 // for Number).
 extern JS_PUBLIC_API bool InitRealmStandardClasses(JSContext* cx);
+
+// If the current realm has the non-standard freezeBuiltins option set to true,
+// freeze the constructor object and seal the prototype.
+extern JS_PUBLIC_API bool MaybeFreezeCtorAndPrototype(JSContext* cx,
+                                                      HandleObject ctor,
+                                                      HandleObject maybeProto);
 
 /*
  * Ways to get various per-Realm objects. All the getters declared below operate

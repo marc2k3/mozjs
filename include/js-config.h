@@ -65,13 +65,13 @@
 /* #undef JS_ENABLE_SMOOSH */
 
 /* Experimental WASM features */
-/* #undef ENABLE_WASM_EXCEPTIONS */
+#define ENABLE_WASM_EXCEPTIONS 1
 /* #undef ENABLE_WASM_FUNCTION_REFERENCES */
 /* #undef ENABLE_WASM_GC */
 #define ENABLE_WASM_SIMD 1
 
 /* MOZILLA JSAPI version number components */
-#define MOZJS_MAJOR_VERSION 91
-#define MOZJS_MINOR_VERSION 10
+#define MOZJS_MAJOR_VERSION 102
+#define MOZJS_MINOR_VERSION 12
 
 #endif /* js_config_h */
