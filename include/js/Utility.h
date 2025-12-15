@@ -407,10 +407,7 @@ static inline void* js_realloc(void* p, size_t bytes) {
 }
 
 static inline void js_free(void* p) {
-  // TODO: This should call |moz_arena_free(js::MallocArena, p)| but we
-  // currently can't enforce that all memory freed here was allocated by
-  // js_malloc().
-  free(p);
+  moz_arena_free(js::MallocArena, p);
 }
 #endif /* JS_USE_CUSTOM_ALLOCATOR */
 

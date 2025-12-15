@@ -463,7 +463,7 @@ class LinkedList {
           "%s has a buggy user: "
           "it should have removed all this list's elements before "
           "the list's destruction",
-          __PRETTY_FUNCTION__);
+          __FUNCSIG__);
     }
 #  endif
   }
